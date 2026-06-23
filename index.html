@@ -2,8 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="screen-orientation" content="landscape" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Velaluna — Luxury Scented Candles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -287,20 +286,6 @@
       50% { transform: translateY(6px); opacity: 1; }
     }
     .scroll-indicator { animation: scrollPulse 2s ease-in-out infinite; }
-
-    /* ── Landscape lock ── */
-    @media screen and (orientation: portrait) {
-      html {
-        transform: rotate(90deg);
-        transform-origin: left top;
-        width: 100vh;
-        height: 100vw;
-        overflow-x: hidden;
-        position: absolute;
-        top: 100%;
-        left: 0;
-      }
-    }
 
     /* ── Mobile nav: always show cart icon, hide Contact text only ── */
     @media (max-width: 768px) {

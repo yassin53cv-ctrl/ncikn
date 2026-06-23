@@ -1,0 +1,272 @@
+/* ============================================================
+   VELALUNA — Luxury Scented Candles
+   styles.css
+   ============================================================ */
+
+/* ── Google Fonts Import ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* ── CSS Variables ───────────────────────────────────────── */
+:root {
+  --bg-base:        #121212;
+  --bg-surface:     #1a1a1a;
+  --bg-card:        #1e1c1a;
+  --cream:          #fbf7f0;
+  --warm-gray:      #e6dfd3;
+  --amber:          #ffb84d;
+  --amber-dim:      rgba(255, 184, 77, 0.12);
+  --amber-glow:     rgba(255, 184, 77, 0.06);
+  --text-primary:   #f5efe6;
+  --text-secondary: #9e9488;
+  --text-muted:     #5a5450;
+  --border-subtle:  rgba(255, 255, 255, 0.05);
+  --border-warm:    rgba(255, 184, 77, 0.2);
+  --font-serif:     'Playfair Display', Georgia, serif;
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background-color: rgba(255, 184, 77, 0.25); color: var(--cream); }
+
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: var(--bg-base); }
+::-webkit-scrollbar-thumb  { background: rgba(255, 184, 77, 0.3); border-radius: 2px; }
+
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
+.ease-premium { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+
+.eyebrow {
+  font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--amber); font-family: var(--font-sans); font-weight: 400;
+}
+.divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); }
+.section { padding: 120px 0; }
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes breathe {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.65; transform: scale(1.08); }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 0.9;  transform: scaleY(1)    translateX(-50%); }
+  25%       { opacity: 0.7;  transform: scaleY(0.95) translateX(-48%); }
+  75%       { opacity: 0.85; transform: scaleY(1.02) translateX(-52%); }
+}
+@keyframes drift {
+  0%, 100% { transform: translateY(0px)  rotate(-1deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+@keyframes slideInRight  { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+@keyframes fadeIn        { from { opacity: 0; } to { opacity: 1; } }
+@keyframes shimmer       { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes checkPop {
+  0%   { transform: scale(0)    rotate(-10deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(2deg);   opacity: 1; }
+  100% { transform: scale(1)    rotate(0deg);   opacity: 1; }
+}
+@keyframes marquee  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes toastIn  { from { transform: translateY(20px) translateX(-50%); opacity: 0; } to { transform: translateY(0) translateX(-50%); opacity: 1; } }
+@keyframes scrollPulse { 0%, 100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(6px); opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes revealBox { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Animation Classes ───────────────────────────────────── */
+.candle-breathe  { animation: breathe      4s   ease-in-out infinite; }
+.candle-drift    { animation: drift        6s   ease-in-out infinite; }
+.candle-flicker  { animation: flicker      2.5s ease-in-out infinite; }
+.panel-enter     { animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.panel-exit      { animation: slideOutRight 0.4s cubic-bezier(0.4, 0, 1, 1) forwards; }
+.overlay-enter   { animation: fadeIn       0.3s ease forwards; }
+.check-anim      { animation: checkPop    0.5s  cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.marquee-inner   { animation: marquee     22s   linear infinite; white-space: nowrap; display: flex; }
+.toast           { animation: toastIn     0.4s  cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.scroll-indicator{ animation: scrollPulse 2s    ease-in-out infinite; }
+
+/* ── Navbar ──────────────────────────────────────────────── */
+.nav-link {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; font-weight: 400;
+}
+.nav-link:hover { color: var(--cream); }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #ffb84d 0%, #f0a030 100%);
+  color: #1a1200; font-family: var(--font-sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase; padding: 14px 28px;
+  border: none; border-radius: 6px; cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden;
+}
+.btn-primary::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+.btn-primary:hover { box-shadow: 0 8px 30px rgba(255,184,77,0.4); transform: translateY(-1px); }
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:active { transform: translateY(0px); }
+
+.btn-ghost {
+  background: transparent; color: var(--text-secondary); font-family: var(--font-sans);
+  font-size: 11px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 14px 24px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;
+  cursor: pointer; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.15); color: var(--cream); background: rgba(255,255,255,0.04); }
+
+/* ── Product Cards ───────────────────────────────────────── */
+.product-card {
+  position: relative; background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: 16px; overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);
+  cursor: pointer;
+}
+.product-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,184,77,0.06) 0%, transparent 70%);
+  opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+}
+.product-card:hover {
+  transform: translateY(-6px) scale(1.01); border-color: rgba(255,184,77,0.22);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,184,77,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.product-card:hover::before { opacity: 1; }
+
+.carousel-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+.carousel-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Floating Label Inputs ───────────────────────────────── */
+.float-group { position: relative; }
+.float-input {
+  width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  color: var(--cream); font-family: var(--font-sans); font-size: 14px; font-weight: 300;
+  padding: 20px 16px 8px; border-radius: 6px; outline: none;
+  transition: border-color 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.01em;
+}
+.float-input:focus {
+  border-color: rgba(255,184,77,0.35); background: rgba(255,184,77,0.04);
+  box-shadow: 0 0 0 3px rgba(255,184,77,0.06), inset 0 1px 3px rgba(0,0,0,0.3);
+}
+.float-label {
+  position: absolute; left: 16px; top: 14px; font-size: 13px; color: var(--text-muted);
+  font-family: var(--font-sans); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+  pointer-events: none; transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.float-input:focus ~ .float-label,
+.float-input:not(:placeholder-shown) ~ .float-label {
+  top: 6px; font-size: 10px; letter-spacing: 0.1em; color: var(--amber);
+}
+
+/* ── Payment Cards ───────────────────────────────────────── */
+.pay-card {
+  border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px 16px;
+  cursor: pointer; transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  background: rgba(255,255,255,0.02); position: relative; overflow: hidden;
+}
+.pay-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255,184,77,0.08) 0%, transparent 70%);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.pay-card:hover { border-color: rgba(255,184,77,0.2); background: rgba(255,184,77,0.04); transform: translateY(-1px); }
+.pay-card.active {
+  border-color: var(--amber); background: rgba(255,184,77,0.08);
+  box-shadow: 0 0 20px rgba(255,184,77,0.15), 0 0 0 1px rgba(255,184,77,0.3); transform: scale(1.02);
+}
+.pay-card.active::after { opacity: 1; }
+
+/* ── Transfer Info Box ───────────────────────────────────── */
+.transfer-box {
+  animation: revealBox 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+  background: rgba(230,0,0,0.07); border: 1px solid rgba(230,0,0,0.2);
+  border-radius: 10px; padding: 16px 18px; margin-top: 10px;
+}
+.copy-btn {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px; padding: 6px 14px; color: var(--cream); font-family: var(--font-sans);
+  font-size: 11px; letter-spacing: 0.12em; cursor: pointer; transition: all 0.25s ease;
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
+}
+.copy-btn:hover { background: rgba(230,0,0,0.15); border-color: rgba(230,0,0,0.35); }
+.copy-btn.copied { background: rgba(80,200,80,0.12); border-color: rgba(80,200,80,0.3); color: #6ee06e; }
+
+/* ── Noise Overlay ───────────────────────────────────────── */
+.noise::after {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+/* ── Responsive Grid ─────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+}
+@media (max-width: 1023px) {
+  .product-grid-mobile {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    gap: 16px; padding-bottom: 16px; -webkit-overflow-scrolling: touch;
+  }
+  .product-card-mobile { flex: 0 0 82vw; max-width: 340px; scroll-snap-align: start; }
+}
+/* ── Mobile orientation handling ── */
+/*
+  تم إلغاء Landscape lock على portrait حتى يظل الموقع معروضًا بشكل صحيح على الهاتف.
+  لو تحتاج قيد اتجاه محدد لاحقًا، نضيفه بعناية بدون قلب كامل للـ layout.
+*/
+
+
+@media (max-width: 768px) {
+  section          { padding: 80px 24px !important; }
+  footer           { padding: 40px 24px !important; flex-direction: column; text-align: center; }
+  .brand-story-grid { grid-template-columns: 1fr !important; gap: 40px !important; padding: 80px 24px !important; }
+
+  nav              { padding: 14px 16px !important; }
+
+  /* Hide Contact text on mobile but keep cart icon */
+  .nav-contact-link { display: none !important; }
+
+  /* Ensure cart icon is visible on mobile (top-right) */
+  .nav-cart-btn {
+    display: flex !important;
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Improve mobile logo typography (no overlap, elegant spacing) */
+  .nav-brand {
+    text-align: center;
+    width: 100%;
+  }
+  .nav-brand span {
+    font-size: 16px !important;
+    letter-spacing: 0.18em !important;
+    display: inline-block !important;
+    transform: translateX(0) !important;
+  }
+
+  .panel-enter     { width: 100vw !important; }
+}
+@media (max-width: 480px) {
+  .nav-brand span {
+    font-size: 14px !important;
+    letter-spacing: 0.16em !important;
+  }
+}

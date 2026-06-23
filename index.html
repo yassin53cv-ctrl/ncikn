@@ -935,6 +935,27 @@
       );
     };
 
+    // ─── Float Input (defined OUTSIDE CheckoutPanel to prevent remount on every keystroke) ───
+    const FloatInput = ({ field, label, type = 'text', multiline = false, form, setForm }) =>
+      React.createElement('div', { className: 'float-group' },
+        multiline
+          ? React.createElement('textarea', {
+              id: field, placeholder: ' ',
+              value: form[field],
+              onChange: e => setForm(f => ({ ...f, [field]: e.target.value })),
+              className: 'float-input',
+              rows: 2,
+              style: { resize: 'none', minHeight: '64px' },
+            })
+          : React.createElement('input', {
+              type, id: field, placeholder: ' ',
+              value: form[field],
+              onChange: e => setForm(f => ({ ...f, [field]: e.target.value })),
+              className: 'float-input',
+            }),
+        React.createElement('label', { htmlFor: field, className: 'float-label' }, label)
+      );
+
     // ─── Checkout Panel ───────────────────────────────────────────────────────
     const CheckoutPanel = ({ cartItems, onClose }) => {
       const [form, setForm] = useState({ name: '', email: '', address: '', city: '', notes: '' });
@@ -949,26 +970,6 @@
         setSubmitting(true);
         setTimeout(() => { setSubmitting(false); setSuccess(true); }, 1500);
       };
-
-      const FloatInput = ({ field, label, type = 'text', multiline = false }) =>
-        React.createElement('div', { className: 'float-group' },
-          multiline
-            ? React.createElement('textarea', {
-                id: field, placeholder: ' ',
-                value: form[field],
-                onChange: e => setForm(f => ({ ...f, [field]: e.target.value })),
-                className: 'float-input',
-                rows: 2,
-                style: { resize: 'none', minHeight: '64px' },
-              })
-            : React.createElement('input', {
-                type, id: field, placeholder: ' ',
-                value: form[field],
-                onChange: e => setForm(f => ({ ...f, [field]: e.target.value })),
-                className: 'float-input',
-              }),
-          React.createElement('label', { htmlFor: field, className: 'float-label' }, label)
-        );
 
       const getPaymentIcon = (id) => {
         if (id === 'vodafone') return React.createElement(VodafoneLogo, { size: 36 });
@@ -1088,10 +1089,10 @@
                 // Form fields
                 React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '28px' } },
                   React.createElement('p', { style: { fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' } }, 'Delivery Information'),
-                  React.createElement(FloatInput, { field: 'name', label: 'Full Name' }),
-                  React.createElement(FloatInput, { field: 'email', label: 'Email Address', type: 'email' }),
-                  React.createElement(FloatInput, { field: 'address', label: 'Detailed Address' }),
-                  React.createElement(FloatInput, { field: 'city', label: 'City' }),
+                  React.createElement(FloatInput, { field: 'name', label: 'Full Name', form, setForm }),
+                  React.createElement(FloatInput, { field: 'email', label: 'Email Address', type: 'email', form, setForm }),
+                  React.createElement(FloatInput, { field: 'address', label: 'Detailed Address', form, setForm }),
+                  React.createElement(FloatInput, { field: 'city', label: 'City', form, setForm }),
                 ),
 
                 React.createElement('div', { className: 'divider-line', style: { marginBottom: '28px' } }),
@@ -1138,7 +1139,7 @@
 
                 // Notes field — shown when Vodafone or InstaPay is selected
                 (payment === 'vodafone' || payment === 'instapay') && React.createElement('div', { style: { marginBottom: '28px' } },
-                  React.createElement(FloatInput, { field: 'notes', label: 'Transaction reference / notes', multiline: true })
+                  React.createElement(FloatInput, { field: 'notes', label: 'Transaction reference / notes', multiline: true, form, setForm })
                 ),
 
                 React.createElement('div', { className: 'divider-line', style: { marginBottom: '24px' } }),
